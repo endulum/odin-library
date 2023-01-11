@@ -10,12 +10,40 @@
 <body>
 
     <header>
-        <h1>Odin<b>Library</b></h1>
-        <button>New Book</button>
+        <h1>Odin<span style="font-size: 3rem">♦</span><b>Library</b></h1>
     </header>
 
-    <main id="library"></main>
-    
+    <div class="mainwrapper">
+
+        <main id="library"></main>
+
+        <aside>
+            <h2>Your Totals</h2>
+            <ul>
+                <li><span id="booksInLibrary"></span> books in library</li>
+                <li><span id="booksRead"></span> books read</li>
+                <li><span id="pagesRead"></span> pages read</li>
+            </ul>
+            <h2>Add a Book</h2>
+            <form id="addBook">
+                <label for="bookTitle">Title of the book:
+                    <input type="text" id="bookTitle" name="bookTitle" required>
+                </label>
+                <label for="bookAuthor">Author of the book:
+                    <input type="text" id="bookAuthor" name="bookAuthor" required>
+                </label>
+                <label for="bookPages">Pages:
+                    <input type="number" id="bookPages" name="bookPages" min="1" required>
+                </label>
+                <label for="bookRead">Read?
+                    <input type="checkbox" id="bookRead" name="bookRead" value="read">
+                </label>
+                <button id="submission">Submit</button>
+            </form>
+        </aside>
+
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

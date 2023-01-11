@@ -1,4 +1,6 @@
 
+// main
+
 let library = document.getElementById('library');
 
 let books = [];
@@ -35,7 +37,7 @@ function addBookToLibrary(book) {
             read.textContent = 'read';
             book.read = true;
             console.log(book.read);
-        }
+        } updateStats();
     });
 
     library.appendChild(newBook);
@@ -55,21 +57,39 @@ function addBookToLibrary(book) {
     newBook.appendChild(remove);
     remove.addEventListener('click', function() {
         library.removeChild(newBook);
+        books.pop(book);
+        updateStats();
     });
 }
 
-// temp vars
-
 let hobbit = new Book('The Hobbit', 'J.R.R Tolkien', 314, false);
 let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 108, true);
+// temp vars
 
 books.push(hobbit);
 books.push(gatsby);
 
 function updateLibrary() {
+    updateStats();
     books.forEach(function (book) {
         addBookToLibrary(book);
     });
+}
+
+function updateStats() {
+    let booksInLibrary = 0;
+    let booksRead = 0;
+    let pagesRead = 0;
+    books.forEach(function (book) {
+        booksInLibrary++;
+        if (book.read) {
+            booksRead++;
+            pagesRead += book.pages;
+        }
+    });
+    document.getElementById('booksInLibrary').innerHTML = `<b>${booksInLibrary}</b>`;
+    document.getElementById('booksRead').innerHTML = `<b>${booksRead}</b>`;
+    document.getElementById('pagesRead').innerHTML = `<b>${pagesRead}</b>`;
 }
 
 updateLibrary();
