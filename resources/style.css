@@ -102,7 +102,14 @@ main {
 .book small {
   opacity: 0.75;
 }
-.book small:nth-of-type(2)::before {
+.book small:last-of-type {
+  text-decoration: underline;
+}
+.book small:last-of-type:hover {
+  color: crimson;
+  cursor: pointer;
+}
+.book small:first-of-type::after {
   content: "/ ";
   opacity: 0.5;
 }
