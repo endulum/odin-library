@@ -1,16 +1,17 @@
 
 // main
 
-let library = document.getElementById('library');
-
 let books = [];
 
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, added) {
     this.title = title,
     this.author = author,
     this.pages = pages,
-    this.read = read
+    this.read = read,
+    this.added = added // additional flag for checking if a book exists in the gui
 }
+
+let library = document.getElementById('library');
 
 function addBookToLibrary(book) {
     let newBook = document.createElement('div');
@@ -57,23 +58,18 @@ function addBookToLibrary(book) {
     newBook.appendChild(remove);
     remove.addEventListener('click', function() {
         library.removeChild(newBook);
-        books.pop(book);
-        updateStats();
+        books.splice(books.findIndex(bk => bk.title === book.title), 1); // shorter way to write this?
+        updateLibrary();
     });
 }
 
-let hobbit = new Book('The Hobbit', 'J.R.R Tolkien', 314, false);
-let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 108, true);
-// temp vars
-
-books.push(hobbit);
-books.push(gatsby);
-
 function updateLibrary() {
-    updateStats();
     books.forEach(function (book) {
-        addBookToLibrary(book);
-    });
+        if (!book.added) {
+            addBookToLibrary(book);
+            book.added = true;
+        }
+    }); updateStats();
 }
 
 function updateStats() {
@@ -92,4 +88,22 @@ function updateStats() {
     document.getElementById('pagesRead').innerHTML = `<b>${pagesRead}</b>`;
 }
 
+let form = document.getElementById('addBook');
+
+form.onsubmit = function(event) {
+    let temp = bookRead.checked ? true : false ;
+    let addition = new Book(bookTitle.value, bookAuthor.value, parseInt(bookPages.value), temp, false);
+    books.push(addition);
+    updateLibrary();
+    form.reset();
+    event.preventDefault();
+}
+
+// just some dummy values to populate the library
+let hobbit = new Book('The Hobbit', 'J.R.R Tolkien', 300, false, false);
+let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, false, false);
+let hamlet = new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, false, false);
+books.push(hobbit);
+books.push(gatsby);
+books.push(hamlet);
 updateLibrary();
