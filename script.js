@@ -57,9 +57,12 @@ function addBookToLibrary(book) {
     remove.innerHTML = '<img src=\"resources/x-solid.svg\" alt=\"Remove\">';
     newBook.appendChild(remove);
     remove.addEventListener('click', function() {
-        library.removeChild(newBook);
-        books.splice(books.findIndex(bk => bk.title === book.title), 1); // shorter way to write this?
-        updateLibrary();
+        let confirmation = confirm(`Are you sure you want to remove ${book.title}?`);
+        if (confirmation) {
+            library.removeChild(newBook);
+            books.splice(books.findIndex(bk => bk.title === book.title), 1); // shorter way to write this?
+            updateLibrary();
+        }
     });
 }
 
