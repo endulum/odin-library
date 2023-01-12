@@ -106,7 +106,9 @@ form.onsubmit = function(event) {
 let hobbit = new Book('The Hobbit', 'J.R.R Tolkien', 300, false, false);
 let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, false, false);
 let hamlet = new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, false, false);
+let longtitle = new Book('Sphinx of Black Quartz, Judge My Vow', 'Pseudonymous Alcedine', 413, false, false);
 books.push(hobbit);
 books.push(gatsby);
 books.push(hamlet);
+books.push(longtitle);
 updateLibrary();
