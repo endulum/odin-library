@@ -1,3 +1,44 @@
+const $ = selector => document.querySelector(selector);
+
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+}
+
+class Library {
+    books = new Map();
+
+    add(book) {
+        if (!this.books.get(book.title)) {this.books.set(book.title, book);} 
+        else {console.log('This book is already added.')}
+    }
+
+    remove(title) {
+        if (!this.books.get(title)) {console.log('This book does not exist.')}
+        else {this.books.delete(title);}
+    }
+
+}; const library = new Library;
+
+console.log(library);
+library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
+console.log(library);
+library.remove('The Tragedy of Hamlet');
+console.log(library);
+
+// library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
+// console.log(library);
+// console.log(library.books);
+
+
+// library.push(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
+
+// console.log(library);
+
 
 
 // // main
