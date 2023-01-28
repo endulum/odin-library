@@ -59,4 +59,75 @@ header h1 {
 }
 header h1 b {
   color: white;
+}
+
+.mainwrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+main {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 15px;
+}
+
+.book {
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px 0;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.book h3 {
+  font-size: 1.25rem;
+}
+.book h4 {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+.book small {
+  opacity: 0.75;
+}
+.book small:last-of-type {
+  text-decoration: underline;
+}
+.book small:last-of-type:hover {
+  color: crimson;
+  cursor: pointer;
+}
+.book small:first-of-type::after {
+  content: "/ ";
+  opacity: 0.5;
+}
+.book button {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  line-height: 0;
+}
+.book button:hover {
+  background-color: crimson;
+}
+.book button img {
+  width: 12px;
+  height: 12px;
+  filter: invert(100%);
 }/*# sourceMappingURL=style.css.map */
