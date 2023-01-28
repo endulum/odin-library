@@ -13,99 +13,111 @@ class Library {
     books = new Map();
 
     add(book) {
-        if (!this.books.get(book.title)) {this.books.set(book.title, book);} 
-        else {console.log('This book is already added.')}
+        if (!this.books.get(book.title)) {
+            this.books.set(book.title, book);
+            gui.addToLibrary(book);
+        } 
+        else {console.warn('This book is already added.')}
     }
 
     remove(title) {
-        if (!this.books.get(title)) {console.log('This book does not exist.')}
+        if (!this.books.get(title)) {console.warn('This book does not exist.')}
         else {this.books.delete(title);}
     }
 
-}; const library = new Library;
+    find(title) {
+        if (!this.books.get(title)) {console.warn('This book does not exist.')}
+        else {return this.books.get(title);}
+    }
 
-console.log(library);
-library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
-console.log(library);
-library.remove('The Tragedy of Hamlet');
-console.log(library);
+    getTotalPages() {
+        let pages = 0;
+        for (let book of this.books.values()) {
+            if (book.read) {pages += book.pages;}
+        }; return pages;
+    }
 
-// library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
-// console.log(library);
+    toggleRead(title) {
+        this.books.get(title).read = (this.books.get(title).read) ? false : true ;
+    }
+};
+
+const library = new Library;
+
+class GUI {
+    addToLibrary(book) {
+        let bookLeaf = document.createElement('div');
+        bookLeaf.classList.add('book');
+        bookLeaf.setAttribute('id', book.title.split(' ').join(''));
+
+        let title = document.createElement('h3')
+        title.textContent = book.title;
+
+        let author = document.createElement('h4');
+        author.textContent = book.author;
+
+        let pages = document.createElement('small');
+        pages.textContent = book.pages + ' pages ';
+
+        let read = document.createElement('small');
+        read.textContent = book.read ? 'read' : 'not read yet' ;
+        read.addEventListener('click', function() {
+            if (book.read) {
+                read.textContent = 'not read yet';
+                library.toggleRead(book.title);
+            } else {
+                read.textContent = 'read';
+                library.toggleRead(book.title);
+            }
+        });
+    
+        $('#library').appendChild(bookLeaf);
+    
+        let topHalf = document.createElement('div');
+        bookLeaf.appendChild(topHalf);
+        topHalf.appendChild(title);
+        topHalf.appendChild(author);
+    
+        let bottomHalf = document.createElement('div');
+        bookLeaf.appendChild(bottomHalf);
+        bottomHalf.appendChild(pages);
+        bottomHalf.appendChild(read);
+    
+        let remove = document.createElement('button');
+        remove.innerHTML = '<img src=\"resources/x-solid.svg\" alt=\"Remove\">';
+        bookLeaf.appendChild(remove);
+        remove.addEventListener('click', function() {
+            let confirmation = confirm(`Are you sure you want to remove ${book.title}?`);
+            if (confirmation) {
+                $('#library').removeChild(bookLeaf);
+                library.remove(book.title);
+                console.log(library.books);
+            }
+        });
+    }
+}
+
+const gui = new GUI;
+
+library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, true));
+library.add(new Book('The Hobbit', 'J.R.R Tolkien', 300, true));
+library.add(new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, true));
+
+
+
+
+
+
+
+
+// library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, true));
 // console.log(library.books);
 
-
-// library.push(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, false));
-
-// console.log(library);
-
-
-
-// // main
-
-// let books = [];
-
-// function Book(title, author, pages, read, added) {
-//     this.title = title,
-//     this.author = author,
-//     this.pages = pages,
-//     this.read = read,
-//     this.added = added // additional flag for checking if a book exists in the gui
-// }
-
-// let library = document.getElementById('library');
-
-// function addBookToLibrary(book) {
-//     let newBook = document.createElement('div');
-//     newBook.classList.add('book');
-//     newBook.setAttribute('id', book.title.split(' ').join(''));
     
-//     let title = document.createElement('h3')
-//     title.textContent = book.title;
+    
+    
 
-//     let author = document.createElement('h4');
-//     author.textContent = book.author;
-
-//     let pages = document.createElement('small');
-//     pages.textContent = book.pages + ' pages ';
-
-//     let read = document.createElement('small');
-//     read.textContent = book.read ? 'read' : 'not read yet' ;
-//     read.addEventListener('click', function() {
-//         if (book.read) {
-//             read.textContent = 'not read yet';
-//             book.read = false;
-//             console.log(book.read);
-//         } else {
-//             read.textContent = 'read';
-//             book.read = true;
-//             console.log(book.read);
-//         } updateStats();
-//     });
-
-//     library.appendChild(newBook);
-
-//     let topHalf = document.createElement('div');
-//     newBook.appendChild(topHalf);
-//     topHalf.appendChild(title);
-//     topHalf.appendChild(author);
-
-//     let bottomHalf = document.createElement('div');
-//     newBook.appendChild(bottomHalf);
-//     bottomHalf.appendChild(pages);
-//     bottomHalf.appendChild(read);
-
-//     let remove = document.createElement('button');
-//     remove.innerHTML = '<img src=\"resources/x-solid.svg\" alt=\"Remove\">';
-//     newBook.appendChild(remove);
-//     remove.addEventListener('click', function() {
-//         let confirmation = confirm(`Are you sure you want to remove ${book.title}?`);
-//         if (confirmation) {
-//             library.removeChild(newBook);
-//             books.splice(books.findIndex(bk => bk.title === book.title), 1); // shorter way to write this?
-//             updateLibrary();
-//         }
-//     });
+    
 // }
 
 // function updateLibrary() {
@@ -145,7 +157,7 @@ console.log(library);
 // }
 
 // // just some dummy values to populate the library
-// let hobbit = new Book('The Hobbit', 'J.R.R Tolkien', 300, false, false);
+// let hobbit = 
 // let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, false, false);
 // let hamlet = new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, false, false);
 // let longtitle = new Book('Sphinx of Black Quartz, Judge My Vow', 'Pseudonymous Alcedine', 413, false, false);
