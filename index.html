@@ -11,22 +11,14 @@
 
     <header>
         <h1>Odin<span style="font-size: 3rem">♦</span><b>Library</b></h1>
+        <div id="add"><img src="/resources/plus-solid.svg" alt="Add"> Add New Book</div>
     </header>
 
     <div class="mainwrapper">
 
-        <main id="library"></main>
-
-        <!-- <aside>
-            <h2>Your Totals</h2>
-            <ul>
-                <li><span id="booksInLibrary"></span> books in library</li>
-                <li><span id="booksRead"></span> books read</li>
-                <li><span id="pagesRead"></span> pages read</li>
-            </ul>
-            <br>
-            <h2>Add a Book</h2>
-            <form id="addBook">
+        <div class="overlay">
+            <form action="" id="addBook">
+                <h2>Add New Book</h2>
                 <label for="bookTitle">Title of the book:
                     <input type="text" id="bookTitle" name="bookTitle" required>
                 </label>
@@ -40,8 +32,11 @@
                     <input type="checkbox" id="bookRead" name="bookRead">
                 </label>
                 <button id="addBookSubmit">Submit</button>
+                <div class="close"><img src="resources/x-solid.svg" alt="Close"></div>
             </form>
-        </aside> -->
+        </div>
+
+        <main id="library"></main>
 
     </div>
 

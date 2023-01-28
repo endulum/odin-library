@@ -10,41 +10,81 @@ class Book {
 }
 
 class Library {
-    books = new Map();
+    #books = new Map();
+
+    get catalog() {
+        return Array.from(this.#books.values());
+    }
 
     add(book) {
-        if (!this.books.get(book.title)) {
-            this.books.set(book.title, book);
+        if (!this.#books.get(book.title)) {
+            this.#books.set(book.title, book);
             gui.addToLibrary(book);
         } 
         else {console.warn('This book is already added.')}
     }
 
     remove(title) {
-        if (!this.books.get(title)) {console.warn('This book does not exist.')}
-        else {this.books.delete(title);}
+        if (!this.#books.get(title)) {console.warn('This book does not exist.')}
+        else {this.#books.delete(title);}
     }
 
     find(title) {
-        if (!this.books.get(title)) {console.warn('This book does not exist.')}
-        else {return this.books.get(title);}
+        if (!this.#books.get(title)) {console.warn('This book does not exist.')}
+        else {return this.#books.get(title);}
     }
 
     getTotalPages() {
         let pages = 0;
-        for (let book of this.books.values()) {
+        for (let book of this.#books.values()) {
             if (book.read) {pages += book.pages;}
         }; return pages;
     }
 
     toggleRead(title) {
-        this.books.get(title).read = (this.books.get(title).read) ? false : true ;
+        this.#books.get(title).read = (this.#books.get(title).read) ? false : true ;
     }
 };
 
 const library = new Library;
 
 class GUI {
+
+    constructor() {
+        $('.overlay').style.display = 'none';
+        $('#add').addEventListener('click', function() {
+            $('.overlay').style.display = 'flex';
+            $('#add').style.pointerEvents = 'none';
+        });
+        $('#addBook .close').addEventListener('click', function() {
+            $('.overlay').style.display = 'none';
+            $('#add').style.pointerEvents = 'auto';
+        })
+        $('#addBook').onsubmit = function(event) {
+            let temp = bookRead.checked ? true : false ;
+            let addition = new Book(bookTitle.value, bookAuthor.value, parseInt(bookPages.value), temp);
+            library.add(addition);
+            $('#addBook').reset();
+            $('.overlay').style.display = 'none';
+            $('#add').style.pointerEvents = 'auto';
+            event.preventDefault();
+        }
+    }
+
+    // unsure if an update function is needed, but just in case...
+
+    // updateLibrary() {
+    //     library.catalog.forEach(function (book) {
+    //         console.log(book);
+    //         if (!library.find(book.title)) {
+    //             console.log('Adding book.');
+    //             addToLibrary(book);
+    //         } else {
+    //             console.warn(book.title + ' is already added.')
+    //         }
+    //     });
+    // }
+
     addToLibrary(book) {
         let bookLeaf = document.createElement('div');
         bookLeaf.classList.add('book');
@@ -84,6 +124,7 @@ class GUI {
         bottomHalf.appendChild(read);
     
         let remove = document.createElement('button');
+        remove.classList.add('close');
         remove.innerHTML = '<img src=\"resources/x-solid.svg\" alt=\"Remove\">';
         bookLeaf.appendChild(remove);
         remove.addEventListener('click', function() {
@@ -91,7 +132,6 @@ class GUI {
             if (confirmation) {
                 $('#library').removeChild(bookLeaf);
                 library.remove(book.title);
-                console.log(library.books);
             }
         });
     }
@@ -99,70 +139,6 @@ class GUI {
 
 const gui = new GUI;
 
-library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, true));
-library.add(new Book('The Hobbit', 'J.R.R Tolkien', 300, true));
-library.add(new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, true));
-
-
-
-
-
-
-
-
-// library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 176, true));
-// console.log(library.books);
-
-    
-    
-    
-
-    
-// }
-
-// function updateLibrary() {
-//     books.forEach(function (book) {
-//         if (!book.added) {
-//             addBookToLibrary(book);
-//             book.added = true;
-//         }
-//     }); updateStats();
-// }
-
-// function updateStats() {
-//     let booksInLibrary = 0;
-//     let booksRead = 0;
-//     let pagesRead = 0;
-//     books.forEach(function (book) {
-//         booksInLibrary++;
-//         if (book.read) {
-//             booksRead++;
-//             pagesRead += book.pages;
-//         }
-//     });
-//     document.getElementById('booksInLibrary').innerHTML = `<b>${booksInLibrary}</b>`;
-//     document.getElementById('booksRead').innerHTML = `<b>${booksRead}</b>`;
-//     document.getElementById('pagesRead').innerHTML = `<b>${pagesRead}</b>`;
-// }
-
-// let form = document.getElementById('addBook');
-
-// form.onsubmit = function(event) {
-//     let temp = bookRead.checked ? true : false ;
-//     let addition = new Book(bookTitle.value, bookAuthor.value, parseInt(bookPages.value), temp, false);
-//     books.push(addition);
-//     updateLibrary();
-//     form.reset();
-//     event.preventDefault();
-// }
-
-// // just some dummy values to populate the library
-// let hobbit = 
-// let gatsby = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, false, false);
-// let hamlet = new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, false, false);
-// let longtitle = new Book('Sphinx of Black Quartz, Judge My Vow', 'Pseudonymous Alcedine', 413, false, false);
-// books.push(hobbit);
-// books.push(gatsby);
-// books.push(hamlet);
-// books.push(longtitle);
-// updateLibrary();
+library.add(new Book('The Tragedy of Hamlet', 'William Shakespeare', 200, false));
+library.add(new Book('The Hobbit', 'J.R.R Tolkien', 300, false));
+library.add(new Book('The Great Gatsby', 'F. Scott Fitzgerald', 100, false));

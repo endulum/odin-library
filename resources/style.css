@@ -60,11 +60,38 @@ header h1 {
 header h1 b {
   color: white;
 }
+header div {
+  border: 1px solid crimson;
+  color: white;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 0.75rem "LibreBaskerville", serif;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px 10px;
+  width: 40px;
+  height: 40px;
+  transition: 0.5s ease;
+}
+header div img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  filter: invert(100%);
+}
+header div:hover {
+  cursor: pointer;
+  width: 150px;
+}
 
 .mainwrapper {
   display: flex;
   flex-direction: row;
   height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 main {
@@ -110,7 +137,8 @@ main {
   content: "/ ";
   opacity: 0.5;
 }
-.book button {
+
+.close {
   position: absolute;
   display: block;
   bottom: 0;
@@ -123,11 +151,86 @@ main {
   border-bottom-right-radius: 15px;
   line-height: 0;
 }
-.book button:hover {
+.close:hover {
   background-color: crimson;
+  cursor: pointer;
 }
-.book button img {
+.close img {
   width: 12px;
   height: 12px;
   filter: invert(100%);
+}
+
+.overlay {
+  position: absolute;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addBook {
+  border-radius: 15px 0;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  background-color: white;
+  width: 250px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 25px;
+  padding-bottom: 35px;
+  display: grid;
+  grid-template-columns: calc(70% - 10px) calc(30% - 10px);
+  row-gap: 20px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+#addBook label {
+  display: flex;
+  font: 0.75rem "LibreBaskerville", serif;
+}
+#addBook label[for=bookTitle], #addBook label[for=bookAuthor] {
+  grid-column: 1/3;
+  flex-direction: column;
+}
+#addBook label[for=bookTitle] input, #addBook label[for=bookAuthor] input {
+  margin-top: 5px;
+}
+#addBook label[for=bookPages] {
+  grid-column: 1/2;
+  margin-top: 10px;
+}
+#addBook label[for=bookPages] input {
+  margin-left: 5px;
+  margin-top: -5px;
+}
+#addBook label[for=bookRead] {
+  grid-column: 2/3;
+  margin-top: 12px;
+}
+#addBook label[for=bookRead] input {
+  margin-top: 0px;
+}
+#addBook button {
+  grid-column: 1/3;
+}
+#addBook input {
+  width: 100%;
+  font: 0.75rem monospace;
+  line-height: 1.5rem;
+  border: none;
+  border-bottom: 1px dashed lightgray;
+  padding: 0;
+}
+#addBook h2 {
+  grid-column: 1/3;
+}
+
+input:focus-visible {
+  outline: none;
+  border-bottom: 1px solid black;
 }/*# sourceMappingURL=style.css.map */
